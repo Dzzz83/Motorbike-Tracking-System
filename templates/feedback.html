@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<!-- Created By CodingNepal - www.codingnepalweb.com -->
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Object Tracking System</title> 
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/feedback.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"/>
+  </head>
+  <body>
+    <nav>
+        <div class="menu">
+            <div class="logo">
+              <a href="{{ url_for('home')}}">MTS</a>
+            </div>
+            <ul>
+                <li><a href="{{ url_for('home') }}">Home</a></li>
+                <li><a href="{{ url_for('about') }}">About</a></li>
+                <li><a href="{{ url_for('feedback') }}">Feedback</a></li>
+                <li><a href="{{ url_for('logout')}}">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container clearfix">
+        <div style="text-align:center">
+          <h2>Feedback</h2>
+          <p>Swing by for a cup of coffee, or leave us a message:</p>
+        </div>
+        <div class="row">
+          <div class="column">
+            <img src="{{ url_for('static', filename='images/feedback.jpg') }}" style="width: 200%">
+          </div>
+          <div class="column">
+            <form action="{{ url_for('feedback') }}" method="post">
+              <label for="country">Country</label>
+              <select id="country" name="country">
+                <option value="vietnam">Vietnam</option>
+                <option value="germany">Germany</option>
+                <option value="usa">USA</option>
+              </select>
+              <label for="subject">Subject</label>
+              <textarea id="subject" class="wide" name="subject" placeholder="Write something.."></textarea>
+              <input type="submit" value="Submit">
+            </form>
+          </div>
+        </div>
+      </div>
+  </body>
+</html>

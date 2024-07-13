@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>GPS Map</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/map.css') }}">
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+</head>
+<body>
+    <nav>
+        <div class="menu">
+            <div class="logo">
+                <a href="{{ url_for('home')}}">MTS</a>
+            </div>
+            <ul>
+                <li><a href="{{ url_for('home') }}">Home</a></li>
+                <li><a href="{{ url_for('about') }}">About</a></li>
+                <li><a href="{{ url_for('feedback') }}">Feedback</a></li>
+                <li><a href="{{ url_for('logout') }}">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+    <button id="toggle-dashboard">Toggle Dashboard</button>
+    <div id="map"></div>
+    <div id="dashboard">
+        <div class="box route-1">
+            <h3>Tracker 1</h3>
+            <p>Total Distance: {{ total_distances[0] }} km</p>
+            <p>Average Speed: {{ average_speeds[0] }} km/h</p>
+            <p>Fuel Consumption: {{ fuel_consumptions[0] }} liters</p>
+            <p>Total Time: {{ total_times[0] }}</p>
+        </div>
+        <div class="box route-2">
+            <h3>Tracker 2</h3>
+            <p>Total Distance: {{ total_distances[1] }} km</p>
+            <p>Average Speed: {{ average_speeds[1] }} km/h</p>
+            <p>Fuel Consumption: {{ fuel_consumptions[1] }} liters</p>
+            <p>Total Time: {{ total_times[1] }}</p>
+        </div>
+        <div class="box route-3">
+            <h3>Tracker 3</h3>
+            <p>Total Distance: {{ total_distances[2] }} km</p>
+            <p>Average Speed: {{ average_speeds[2] }} km/h</p>
+            <p>Fuel Consumption: {{ fuel_consumptions[2] }} liters</p>
+            <p>Total Time: {{ total_times[2] }}</p>
+        </div>
+    </div>
+    <script>
+        var map = L.map('map').setView([0, 0], 2);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        var allData = {{ data | tojson }};
+        var colors = ['blue', 'red', 'green']; // Different colors for each route
+
+        allData.forEach(function(routeData, index) {
+            var coordinates = routeData.map(function(item) {
+                return [item.latitude, item.longitude];
+            });
+
+            if (coordinates.length > 0) {
+                var polyline = L.polyline(coordinates, { color: colors[index] }).addTo(map);
+
+                polyline.bindPopup(`Route ${index + 1} - Total Distance: {{ total_distances[index] }} km<br>Average Speed: {{ average_speeds[index] }} km/h<br>Fuel Consumption: {{ fuel_consumptions[index] }} liters<br>Total Time: {{ total_times[index] }}`);
+                
+                map.fitBounds(polyline.getBounds());
+            } else {
+                console.log(`No coordinates to display for route ${index + 1}`);
+            }
+        });
+
+        document.getElementById('toggle-dashboard').addEventListener('click', function() {
+            var dashboard = document.getElementById('dashboard');
+            if (dashboard.style.display === 'none') {
+                dashboard.style.display = 'flex';
+            } else {
+                dashboard.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

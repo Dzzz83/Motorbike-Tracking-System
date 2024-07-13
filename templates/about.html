@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Object Tracking System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/about.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"/>
+</head>
+<body>
+    <nav>
+        <div class="menu">
+            <div class="logo">
+                <a href="{{ url_for('home')}}">MTS</a>
+            </div>
+            <ul>
+                <li><a href="{{ url_for('home') }}">Home</a></li>
+                <li><a href="{{ url_for('about') }}">About</a></li>
+                <li><a href="{{url_for('feedback')}}">Feedback</a></li>
+                <li><a href="{{url_for('logout')}}">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="heading-container">
+        <h1>Our Team</h1>
+    </div>
+    <div class="row">
+        <div class="column">
+            <div class="card">
+                <img src="{{ url_for('static', filename='images/cat.jpeg') }}" alt="Katze" style="width: 100%;">
+                <div class="container">
+                    <h2>Huynh Tuan Phat</h2>
+                    <p class="title">Person 1</p>
+                    <p>A catperson</p>
+                    <p>10423088@student.vgu.edu.vn</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="column">
+            <div class="card">
+                <img src="{{ url_for('static', filename='images/dog.jpeg') }}" alt="Tai" style="width: 100%;">
+                <div class="container">
+                    <h2>Vo Thanh Tai</h2>
+                    <p class="title">Person 2</p>
+                    <p>I love dogs</p>
+                    <p>10423169@student.vgu.edu.vn</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="column">
+            <div class="card">
+                <img src="{{ url_for('static', filename='images/wolf.jpg') }}" alt="Hieu" style="width: 100%;">
+                <div class="container">
+                    <h2>Nguyen Minh Hieu</h2>
+                    <p class="title">Designer & Writer</p>
+                    <p>No matter what happens, I remain calm</p>
+                    <p>10423138@student.vgu.edu.vn</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
