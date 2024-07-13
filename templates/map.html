@@ -47,37 +47,41 @@
         </div>
     </div>
     <script>
+        // initialize Leaflet map centered at coordinates [0, 0] with zoom level 2
         var map = L.map('map').setView([0, 0], 2);
-
+    
+        // add OpenStreetMap tiles to the map
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '© OpenStreetMap contributors'
         }).addTo(map);
-
+    
+        // retrieve GPS route data from Flask template and convert it to JavaScript array
         var allData = {{ data | tojson }};
-        var colors = ['blue', 'red', 'green']; // Different colors for each route
-
+    
+        // define different colors for each route displayed on the map
+        var colors = ['blue', 'red', 'green'];
+    
+        // iterate over each route's GPS data
         allData.forEach(function(routeData, index) {
+            // extract coordinates (latitude, longitude) from routeData
             var coordinates = routeData.map(function(item) {
                 return [item.latitude, item.longitude];
             });
-
+    
+            // create a polyline using the extracted coordinates with a specific color
             if (coordinates.length > 0) {
                 var polyline = L.polyline(coordinates, { color: colors[index] }).addTo(map);
-
-                polyline.bindPopup(`Route ${index + 1} - Total Distance: {{ total_distances[index] }} km<br>Average Speed: {{ average_speeds[index] }} km/h<br>Fuel Consumption: {{ fuel_consumptions[index] }} liters<br>Total Time: {{ total_times[index] }}`);
-                
+    
+                // bind a popup with route information to the polyline
+                polyline.bindPopup(`Route ${index + 1} - Total Distance: {{ total_distances[index] }} km<br>
+                                    Average Speed: {{ average_speeds[index] }} km/h<br>
+                                    Fuel Consumption: {{ fuel_consumptions[index] }} liters<br>
+                                    Total Time: {{ total_times[index] }}`);
+    
+                // fit the map view to the bounds of the polyline
                 map.fitBounds(polyline.getBounds());
             } else {
                 console.log(`No coordinates to display for route ${index + 1}`);
-            }
-        });
-
-        document.getElementById('toggle-dashboard').addEventListener('click', function() {
-            var dashboard = document.getElementById('dashboard');
-            if (dashboard.style.display === 'none') {
-                dashboard.style.display = 'flex';
-            } else {
-                dashboard.style.display = 'none';
             }
         });
     </script>
