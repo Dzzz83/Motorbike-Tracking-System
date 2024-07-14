@@ -64,6 +64,7 @@ pip install Flask Flask-SQLAlchemy Flask-Login Flask-WTF WTForms Flask-Bcrypt
 sqlite3 database.db
 .exit
 ```
+You should see a new file called 'database.db'. If 'database.db' already exists, it will only direct and open it.
 
 **b. Initializing `database.db`**
 1. Open a Python shell:
