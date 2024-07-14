@@ -110,7 +110,7 @@ If 'user' appears, the database is created successfully.
 
 ### GPS Data CSV Files
 
-Place your CSV files directly in the project directory. Ensure your CSV files are named appropriately for the application to process them.
+The folder contains 3 CSV file: 'gps.csv', 'gps_1.csv', 'gps_2.csv'
 
 ### Run the application:
 ```bash
@@ -149,15 +149,18 @@ The Haversine formula is used to calculate the great-circle distance between two
 
 ### Running the Application
 To run the application, execute the following command:
+
+#### On macOS and Linux:
+```bash
+python3 app.py
+```
+
+#### On Windows:
 ```bash
 python app.py
 ```
 
-Make sure the email credentials are correctly set up to send authentication codes.
+Note: 'app.py' contains a clone email credentials to send email automatically. Make sure the email credentials are correctly set up to send authentication codes.
 
 ### Feedback
 Users can submit their feedback through the feedback form. The submitted feedback is currently redirected to a thank you page.
-
----
-
-This README now reflects that the GPS data CSV files should be placed directly in the project directory. Adjust as necessary based on your specific file names and project setup.
