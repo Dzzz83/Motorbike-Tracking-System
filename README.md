@@ -25,46 +25,54 @@ This project is a Flask web application with user authentication, password reset
 - math
 
 ### Installation
-1. Clone the repository:
-   ```bash
-   git clone <repository_url>
-   cd <repository_directory>
-   ```
 
-2. Create and activate a virtual environment:
-   ```bash
-   python3 -m venv venv
-   source venv/bin/activate  # On Windows use `venv\Scripts\activate`
-   ```
+#### Clone the repository:
+```bash
+git clone <repository_url>
+cd <repository_directory>
+```
 
-3. Install the required packages:
-   ```bash
-   pip install Flask Flask-SQLAlchemy Flask-Login Flask-WTF WTForms Flask-Bcrypt
-   ```
+#### Create and activate a virtual environment:
 
-4. Set up the database:
+##### On macOS and Linux:
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
 
- P/s: The "database.db" provided in the code has already been set up so you don't need to set it up again. However, you should check if the database
-   is still functional by confirming 'user' appears using the command below (2) . If the database is somehow corrupted, delete 'database.db' and create a new one
-   manually by using the command below (1).
-  1.  Initializing 'database.db'
-   ```bash
-   python || python3
-   from app import db
-   db.create_all()
-   ```
-   2. To check if the database has been successfully created.
-   ```bash
-   sqlite3 database.db
-   .tables
-   ```
-   If 'user' appears, the database is created successfully. 
-   
-  
-6. Run the application:
-   ```bash
-   flask run
-   ```
+##### On Windows:
+```bash
+python -m venv venv
+venv\Scripts\activate
+```
+
+#### Install the required packages:
+```bash
+pip install Flask Flask-SQLAlchemy Flask-Login Flask-WTF WTForms Flask-Bcrypt
+```
+
+#### Set up the database:
+
+**Note:** The `database.db` provided in the code has already been set up so you don't need to set it up again. However, you should check if the database is still functional by confirming 'user' appears using the command below (2). If the database is somehow corrupted, delete `database.db` and create a new one manually by using the command below (a).
+
+**a. Initializing `database.db`**
+```bash
+python
+from app import db
+db.create_all()
+```
+
+**b. To check if the database has been successfully created:**
+```bash
+sqlite3 database.db
+.tables
+```
+If 'user' appears, the database is created successfully.
+
+#### Run the application:
+```bash
+flask run
+```
 
 ### Configuration
 - **Database URI**: Configure the database URI in `app.config['SQLALCHEMY_DATABASE_URI']`. The current setup uses SQLite.
