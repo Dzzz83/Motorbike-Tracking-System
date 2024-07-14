@@ -24,6 +24,9 @@ This project is a Flask web application with user authentication, password reset
 - re
 - math
 
+### Note
+The code should be run with Python 3.9 or 3.8.
+
 ### Installation
 
 #### Clone the repository:
