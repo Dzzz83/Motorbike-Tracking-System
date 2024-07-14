@@ -53,16 +53,52 @@ pip install Flask Flask-SQLAlchemy Flask-Login Flask-WTF WTForms Flask-Bcrypt
 
 #### Set up the database:
 
-**Note:** The `database.db` provided in the code has already been set up so you don't need to set it up again. However, you should check if the database is still functional by confirming 'user' appears using the command below (2). If the database is somehow corrupted, delete `database.db` and create a new one manually by using the command below (a).
+**Note:** The `database.db` provided in the code has already been set up so you don't need to set it up again. However, you should check if the database is still functional by confirming 'user' appears using the command below (c). If the database is somehow corrupted, delete `database.db` and create a new one manually by using the command below (a and b).
 
-**a. Initializing `database.db`**
+##### On macOS and Linux:
+**a. Create a database manually:**
 ```bash
-python
-from app import db
-db.create_all()
+sqlite3 database.db
+.exit
 ```
 
-**b. To check if the database has been successfully created:**
+**b. Initializing `database.db`**
+1. Open a Python shell:
+   ```bash
+   python3
+   ```
+2. Run the following commands:
+   ```python
+   from app import db
+   db.create_all()
+   ```
+
+**c. To check if the database has been successfully created:**
+```bash
+sqlite3 database.db
+.tables
+```
+If 'user' appears, the database is created successfully.
+
+##### On Windows:
+**a. Create a database manually:**
+```bash
+sqlite3 database.db
+.exit
+```
+
+**b. Initializing `database.db`**
+1. Open a Python shell:
+   ```bash
+   python
+   ```
+2. Run the following commands:
+   ```python
+   from app import db
+   db.create_all()
+   ```
+
+**c. To check if the database has been successfully created:**
 ```bash
 sqlite3 database.db
 .tables
@@ -71,7 +107,7 @@ If 'user' appears, the database is created successfully.
 
 #### Run the application:
 ```bash
-flask run
+python app.py
 ```
 
 ### Configuration
