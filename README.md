@@ -108,7 +108,11 @@ sqlite3 database.db
 ```
 If 'user' appears, the database is created successfully.
 
-#### Run the application:
+### GPS Data CSV Files
+
+Place your CSV files directly in the project directory. Ensure your CSV files are named appropriately for the application to process them.
+
+### Run the application:
 ```bash
 python app.py
 ```
@@ -122,7 +126,6 @@ python app.py
 - `app.py`: Main application file containing route definitions and logic.
 - `templates/`: Directory containing HTML templates.
 - `static/`: Directory for static files (CSS).
-- `gps_data/`: Directory for storing GPS data CSV files.
 
 ### Routes
 - `/`: Login page.
@@ -139,7 +142,7 @@ python app.py
 - `/thank`: Thank you page after submitting feedback.
 
 ### GPS Data Processing
-The `process_csv_data` function reads and processes GPS data from CSV files. It calculates distances using the Haversine formula, total time spent, average speed, and fuel consumption. The processed data is then displayed on the map.
+The `process_csv_data` function reads and processes GPS data from CSV files placed directly in the project directory. It calculates distances using the Haversine formula, total time spent, average speed, and fuel consumption. The processed data is then displayed on the map.
 
 ### Haversine Formula
 The Haversine formula is used to calculate the great-circle distance between two points on the Earth's surface, given their latitude and longitude.
@@ -154,3 +157,7 @@ Make sure the email credentials are correctly set up to send authentication code
 
 ### Feedback
 Users can submit their feedback through the feedback form. The submitted feedback is currently redirected to a thank you page.
+
+---
+
+This README now reflects that the GPS data CSV files should be placed directly in the project directory. Adjust as necessary based on your specific file names and project setup.
