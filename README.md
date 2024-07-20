@@ -84,6 +84,17 @@ When you run the application, the `database.db` file will be automatically creat
 ### GPS Data Processing
 The `process_csv_data` function reads and processes GPS data from CSV files placed directly in the project directory. It calculates distances using the Haversine formula, total time spent, average speed, and fuel consumption. The processed data is then displayed on the map.
 
+#### CSV Files
+- Ensure the CSV files (`gps.csv`, `gps_1.csv`, `gps_2.csv`) containing GPS data are placed in the project directory before running the application.
+- Each CSV file should have lines in the following format:
+  ```
+  time_part, {"lat":latitude,"lon":longitude}
+  ```
+  Example:
+  ```
+  2024-07-19T15:23:05.000Z, {"lat":37.7749,"lon":-122.4194}
+  ```
+
 ### Haversine Formula
 The Haversine formula is used to calculate the great-circle distance between two points on the Earth's surface, given their latitude and longitude.
 
