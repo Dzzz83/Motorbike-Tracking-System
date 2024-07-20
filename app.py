@@ -10,13 +10,18 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import smtplib, random, string, re
 from math import radians, sin, cos, sqrt, atan2
+import os
+
+# Create an absolute path for the database file
+BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+DB_PATH = os.path.join(BASE_DIR, 'database.db')
 
 # initializes Flask app with a database URI and a secret key for session management
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
-app.config['SECRET_KEY'] = "thisisasecretkey"
+app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_PATH}'
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'thisisasecretkey')
 
-# initializes database and password hassing
+# initializes database and password hashing
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 
@@ -24,8 +29,8 @@ bcrypt = Bcrypt(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "login"
-# sets up a user loader to extract user data from the database
 
+# sets up a user loader to extract user data from the database
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
@@ -37,6 +42,12 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(80), nullable=False)
     code = db.Column(db.String(6), nullable=False)
 
+# Ensure the database is initialized within an application context
+with app.app_context():
+    print("Creating all database tables...")
+    db.create_all()
+    print("All tables created.")
+
 # define various forms
 class RegisterForm(FlaskForm):
     username = EmailField(validators=[InputRequired(), Email(), Length(min=4, max=100)], render_kw={"placeholder": "Email"})
@@ -47,6 +58,7 @@ class LoginForm(FlaskForm):
     username = EmailField(validators=[InputRequired(), Email(), Length(min=4, max=100)], render_kw={"placeholder": "Email"})
     password = PasswordField(validators=[InputRequired(), Length(min=4, max=20)], render_kw={"placeholder": "Password"})
     submit = SubmitField("Login")
+
 
 class ConfirmForm(FlaskForm):
     username = EmailField(validators=[InputRequired(), Email(), Length(min=4, max=100)], render_kw={"placeholder": "Email"})
@@ -60,7 +72,7 @@ class ResetForm(FlaskForm):
     password = PasswordField(validators=[InputRequired(), Length(min=4, max=20)], render_kw={"placeholder": "Password"})
     submit = SubmitField("Confirm")
 
-# route for login, it checks if the input matchs the data in the database and redirects the user if true
+# route for login, it checks if the input matches the data in the database and redirects the user if true
 @app.route('/', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
@@ -72,7 +84,6 @@ def login():
         else:
             flash('Invalid username or password', 'danger')
     return render_template('login.html', form=form)
-
 
 # route to handle logout which redirects user back to login page
 @app.route('/logout', methods=['GET', 'POST'])
@@ -111,7 +122,6 @@ def register():
             return redirect(url_for('code_reg'))
     return render_template('register.html', form=form)
 
-
 # route to handle authentication code for register. checks if the input matches the code, if yes, adds the user and redirects to login
 @app.route('/code_reg', methods=['GET', 'POST'])
 def code_reg():
@@ -119,7 +129,7 @@ def code_reg():
     if form.validate_on_submit():
         entered_code = form.code.data
         stored_code = session.get('code')
-        # encrypt using bycrypt
+        # encrypt using bcrypt
         if bcrypt.check_password_hash(stored_code, entered_code):
             session.pop('code')
             hashed_password = bcrypt.generate_password_hash(session['password']).decode('utf-8')
@@ -150,8 +160,7 @@ def confirm():
             flash('Email does not exist in our records. Please enter a valid email.', 'danger')
     return render_template('confirm.html', form=form)
 
-
-# route to check the authenctication code. If the code matches, redirects the user to reset page
+# route to check the authentication code. If the code matches, redirects the user to reset page
 @app.route('/code', methods=['GET', 'POST'])
 def check_code():
     form = CodeForm()
@@ -165,7 +174,7 @@ def check_code():
             flash('Invalid code. Please try again.', 'danger')
     return render_template('code.html', form=form)
 
-# route for change password page. 
+# route for change password page
 @app.route('/reset', methods=['GET', 'POST'])
 def reset():
     form = ResetForm()
@@ -189,20 +198,26 @@ def reset():
         
     return render_template('reset.html', form=form)
 
-
 # function to send authentication email containing a code
 def send_authentication_email(username, code):
-    smtp = smtplib.SMTP('smtp.gmail.com', 587)
+    smtp_server = 'smtp.gmail.com'
+    smtp_port = 587
+    email_user = 'hieuminh23405@gmail.com'  # Replace with your email
+    email_password = 'ztls pfjz xddh xuup'     # Replace with your password
+
+    smtp = smtplib.SMTP(smtp_server, smtp_port)
     smtp.ehlo()
     smtp.starttls()
-    smtp.login('hieuminh23405@gmail.com', 'ztls pfjz xddh xuup')
+    smtp.login(email_user, email_password)
 
     msg = MIMEMultipart()
     msg['Subject'] = "Authentication Code"
     msg.attach(MIMEText(f"This is the authentication code: {code}", 'plain'))
 
-    smtp.sendmail(from_addr="your_email@gmail.com", to_addrs=username, msg=msg.as_string())
+    smtp.sendmail(from_addr=email_user, to_addrs=username, msg=msg.as_string())
     smtp.quit()
+
+
 
 # route for about us page
 @app.route('/about', methods=['GET', 'POST'])
@@ -213,13 +228,13 @@ def about():
 def haversine(lat1, lon1, lat2, lon2):
     R = 6371.0  # Earth radius in kilometers
     dlat = radians(lat2 - lat1)
-    dlon = radians(lon2 - lon1)
+    dlon = radians(lon1 - lon2)
     a = sin(dlat / 2)**2 + cos(radians(lat1)) * cos(radians(lat2)) * sin(dlon / 2)**2
     c = 2 * atan2(sqrt(a), sqrt(1 - a))
     distance = R * c
     return distance
 
-# creating lists to store GPS and calculated data.  
+# creating lists to store GPS and calculated data
 def process_csv_data(csv_files):
     all_data = []
     total_distances = []
@@ -232,7 +247,6 @@ def process_csv_data(csv_files):
         previous_lon = None
         total_distance = 0
         total_time_seconds = 0
-        first_time = None
 
         data_list = []
 
@@ -265,18 +279,17 @@ def process_csv_data(csv_files):
                         distance = haversine(previous_lat, previous_lon, lat, lon)
                         total_distance += distance
                         total_time_seconds += (time_in_seconds - previous_time_in_seconds)
-                    else:
-                        first_time = time_in_seconds
 
                     previous_lat = lat
                     previous_lon = lon
                     previous_time_in_seconds = time_in_seconds
 
+                    """
+                    Explanation of why there is a list and a dictionary for storing data.
+                    Lists of Dictionaries: Detailed storage of individual GPS data points.
+                    Aggregated Lists: Efficient storage of summary metrics for quick access and computation.
+                    """
 
-                    """Explaination of why there is a list and a dictinary for storing data.
-                        Lists of Dictionaries: Detailed storage of individual GPS data points.
-                        Aggregated Lists: Efficient storage of summary metrics for quick access and computation."""
-                    
                     # store the parsed data into a list of dictionaries
                     data = {
                         'time': time,
@@ -290,7 +303,7 @@ def process_csv_data(csv_files):
                     # handle the case where the line does not match the expected format
                     continue
 
-        # calculate total time spent and fuel consumption 
+        # calculate total time spent and fuel consumption
         total_time_hours = total_time_seconds / 3600
         # formula for motorbike
         fuel_consumption = total_distance / 50.4
@@ -330,7 +343,6 @@ def map():
     ]
 
     return render_template('map.html', data=all_data, total_distances=total_distances, average_speeds=average_speeds, fuel_consumptions=fuel_consumptions, total_times=total_times)
-
 
 # route for feedback page
 @app.route('/feedback', methods=['GET', 'POST'])
