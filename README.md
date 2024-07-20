@@ -46,11 +46,25 @@ venv\Scripts\activate
 ```
 
 #### Install the required packages:
+
+##### On macOS and Linux:
+```bash
+pip3 install Flask Flask-SQLAlchemy Flask-Login Flask-WTF WTForms Flask-Bcrypt email-validator
+```
+
+##### On Windows:
 ```bash
 pip install Flask Flask-SQLAlchemy Flask-Login Flask-WTF WTForms Flask-Bcrypt email-validator
 ```
 
 ### Run the application:
+
+##### On macOS and Linux:
+```bash
+python3 app.py
+```
+
+##### On Windows:
 ```bash
 python app.py
 ```
@@ -101,12 +115,12 @@ The Haversine formula is used to calculate the great-circle distance between two
 ### Running the Application
 To run the application, execute the following command:
 
-#### On macOS and Linux:
+##### On macOS and Linux:
 ```bash
 python3 app.py
 ```
 
-#### On Windows:
+##### On Windows:
 ```bash
 python app.py
 ```
