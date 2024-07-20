@@ -1,5 +1,3 @@
-Here's the updated README with the additional note about email credentials:
-
 ## README
 
 ### Overview
