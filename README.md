@@ -1,3 +1,5 @@
+Here's the updated README with the additional note about email credentials:
+
 ## README
 
 ### Overview
@@ -17,23 +19,19 @@ This project is a Flask web application with user authentication, password reset
 - Flask-WTF
 - WTForms
 - Flask-Bcrypt
+- email-validator
 - smtplib
 - email
 - random
 - string
 - re
 - math
+- os
 
 ### Note
 The code should be run with Python 3.9 or 3.8.
 
 ### Installation
-
-#### Clone the repository:
-```bash
-git clone <repository_url>
-cd <repository_directory>
-```
 
 #### Create and activate a virtual environment:
 
@@ -51,76 +49,18 @@ venv\Scripts\activate
 
 #### Install the required packages:
 ```bash
-pip install Flask Flask-SQLAlchemy Flask-Login Flask-WTF WTForms Flask-Bcrypt
+pip install Flask Flask-SQLAlchemy Flask-Login Flask-WTF WTForms Flask-Bcrypt email-validator
 ```
-
-#### Set up the database:
-
-**Note:** The `database.db` provided in the code has already been set up so you don't need to set it up again. However, you should check if the database is still functional by confirming 'user' appears using the command below (c). If the database is somehow corrupted, delete `database.db` and create a new one manually by using the command below (a and b).
-
-##### On macOS and Linux:
-**a. Create a database manually:**
-```bash
-sqlite3 database.db
-.exit
-```
-You should see a new file called 'database.db'. If 'database.db' already exists, it will only direct and open it.
-
-**b. Initializing `database.db`**
-1. Open a Python shell:
-   ```bash
-   python3
-   ```
-2. Run the following commands:
-   ```python
-   from app import db
-   db.create_all()
-   ```
-
-**c. To check if the database has been successfully created:**
-```bash
-sqlite3 database.db
-.tables
-```
-If 'user' appears, the database is created successfully.
-
-##### On Windows:
-**a. Create a database manually:**
-```bash
-sqlite3 database.db
-.exit
-```
-You should see a new file called 'database.db'. If 'database.db' already exists, it will only direct and open it.
-
-**b. Initializing `database.db`**
-1. Open a Python shell:
-   ```bash
-   python
-   ```
-2. Run the following commands:
-   ```python
-   from app import db
-   db.create_all()
-   ```
-
-**c. To check if the database has been successfully created:**
-```bash
-sqlite3 database.db
-.tables
-```
-If 'user' appears, the database is created successfully.
-
-### GPS Data CSV Files
-
-The folder contains 3 CSV file: 'gps.csv', 'gps_1.csv', 'gps_2.csv'
 
 ### Run the application:
 ```bash
 python app.py
 ```
 
+When you run the application, the `database.db` file will be automatically created in the directory.
+
 ### Configuration
-- **Database URI**: Configure the database URI in `app.config['SQLALCHEMY_DATABASE_URI']`. The current setup uses SQLite.
+- **Database URI**: Configured in `app.config['SQLALCHEMY_DATABASE_URI']`. The current setup uses SQLite.
 - **Secret Key**: Set a secret key for session management in `app.config['SECRET_KEY']`.
 - **Email Credentials**: Update the email credentials in the `send_authentication_email` function to enable sending emails for authentication codes.
 
@@ -162,7 +102,10 @@ python3 app.py
 python app.py
 ```
 
-Note: 'app.py' contains a clone email credentials to send email automatically. Make sure the email credentials are correctly set up to send authentication codes.
-
 ### Feedback
 Users can submit their feedback through the feedback form. The submitted feedback is currently redirected to a thank you page.
+
+### Important Notes
+- Ensure you have updated the email credentials in the `send_authentication_email` function.
+- The database file `database.db` will be created automatically when the application is run for the first time.
+- `app.py` contains a clone email credentials to send email automatically. Make sure the email credentials are correctly set up to send authentication codes.
