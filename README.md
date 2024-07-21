@@ -33,41 +33,51 @@ The code should be run with Python 3.9 or 3.8.
 
 #### Create and activate a virtual environment:
 
-##### On macOS and Linux:
-```bash
-python3 -m venv venv
-source venv/bin/activate
-```
+1. Navigate to the project directory:
 
-##### On Windows:
-```bash
-python -m venv venv
-venv\Scripts\activate
-```
+    ```bash
+    cd /path/to/your/project
+    ```
 
-#### Install the required packages:
+2. Create and activate a virtual environment:
 
-##### On macOS and Linux:
-```bash
-pip3 install Flask Flask-SQLAlchemy Flask-Login Flask-WTF WTForms Flask-Bcrypt email-validator
-```
+    ##### On macOS and Linux:
+    ```bash
+    python3 -m venv venv
+    source venv/bin/activate
+    ```
 
-##### On Windows:
-```bash
-pip install Flask Flask-SQLAlchemy Flask-Login Flask-WTF WTForms Flask-Bcrypt email-validator
-```
+    ##### On Windows:
+    ```bash
+    python -m venv venv
+    venv\Scripts\activate
+    ```
+
+3. Install the required packages:
+
+    ##### On macOS and Linux:
+    ```bash
+    pip3 install Flask Flask-SQLAlchemy Flask-Login Flask-WTF WTForms Flask-Bcrypt email-validator
+    ```
+
+    ##### On Windows:
+    ```bash
+    pip install Flask Flask-SQLAlchemy Flask-Login Flask-WTF WTForms Flask-Bcrypt email-validator
+    ```
 
 ### Run the application:
 
-##### On macOS and Linux:
-```bash
-python3 app.py
-```
+1. Ensure you are in the project directory:
 
-##### On Windows:
-```bash
-python app.py
-```
+    ##### On macOS and Linux:
+    ```bash
+    python3 app.py
+    ```
+
+    ##### On Windows:
+    ```bash
+    python app.py
+    ```
 
 When you run the application, the `database.db` file will be automatically created in the directory.
 
@@ -132,3 +142,5 @@ Users can submit their feedback through the feedback form. The submitted feedbac
 - Ensure you have updated the email credentials in the `send_authentication_email` function.
 - The database file `database.db` will be created automatically when the application is run for the first time.
 - `app.py` contains a clone email credentials to send email automatically. Make sure the email credentials are correctly set up to send authentication codes.
+
+---
