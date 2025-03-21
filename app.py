@@ -202,8 +202,8 @@ def reset():
 def send_authentication_email(username, code):
     smtp_server = 'smtp.gmail.com'
     smtp_port = 587
-    email_user = 'hieuminh23405@gmail.com'  # Replace with your email
-    email_password = 'ztls pfjz xddh xuup'     # Replace with your password
+    email_user = ''  # Replace with your email
+    email_password = ''     # Replace with your password
 
     smtp = smtplib.SMTP(smtp_server, smtp_port)
     smtp.ehlo()
